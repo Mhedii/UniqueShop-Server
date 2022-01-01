@@ -22,6 +22,8 @@ async function run() {
         await client.connect();
         const database = client.db("uniqueShop");
         const productsCollection = database.collection("products");
+        const usersCollection = database.collection('users');
+
 
         //GET API for all the products\ showing UI
         app.get("/products", async (req, res) => {
@@ -35,6 +37,22 @@ async function run() {
             const productDetails = await productsCollection.findOne({ _id: ObjectId(req.params.id) });
             res.send(productDetails)
 
+        })
+
+        //POST API- all users siging with email
+        app.post('/users', async (req, res) => {
+            const users = await usersCollection.insertOne(req.body);
+            res.json(users);
+        });
+
+        //PUT API -user
+        app.put('/users', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
         })
 
     } finally {
