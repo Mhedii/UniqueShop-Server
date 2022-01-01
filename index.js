@@ -32,7 +32,7 @@ async function run() {
         })
         //Get API for certain product by id
         app.get("/products/:id", async (req, res) => {
-            const productDetails = await serviceCollection.findOne({ _id: ObjectId(req.params.id) });
+            const productDetails = await productsCollection.findOne({ _id: ObjectId(req.params.id) });
             res.send(productDetails)
 
         })
