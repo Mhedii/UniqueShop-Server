@@ -28,6 +28,12 @@ async function run() {
             res.send(products);
 
         })
+        //Get API for certain product by id
+        app.get("/products/:id", async (req, res) => {
+            const productDetails = await serviceCollection.findOne({ _id: ObjectId(req.params.id) });
+            res.send(productDetails)
+
+        })
 
     } finally {
         //   await client.close();
