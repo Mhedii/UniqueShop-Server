@@ -18,7 +18,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
+        const database = client.db("uniqueShop");
+        const productsCollection = database.collection("products");
 
+        //GET API for all the products\ showing UI
+        app.get("/products", async (req, res) => {
+            const result = productsCollection.find({});
+            const products = await result.toArray();
+            res.send(products);
+
+        })
 
     } finally {
         //   await client.close();
@@ -36,7 +45,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Tech Foring!')
+    res.send('Co-op Battle Team 09!')
 })
 
 app.listen(port, () => {
