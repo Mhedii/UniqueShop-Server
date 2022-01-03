@@ -137,6 +137,10 @@ async function run() {
             const wishlist = await wishlistCollection.insertOne(req.body);
             res.json(wishlist);
         });
+        app.delete('/wishlist/:id', async (req, res) => {
+            const deletedwishlist = await wishlistCollection.deleteOne({ _id: ObjectId(req.params.id) });
+            res.json(deletedwishlist)
+        });
 
 
 
@@ -152,6 +156,11 @@ async function run() {
             res.json(addCart);
         });
 
+        app.delete('/addcart/:id', async (req, res) => {
+            const deletedaddcart = await addCartCollection.deleteOne({ _id: ObjectId(req.params.id) });
+            res.json(deletedaddcart)
+        });
+
         app.get("/reviews", async (req, res) => {
             const result = reviewsCollection.find({});
             const reviews = await result.toArray();
@@ -163,6 +172,11 @@ async function run() {
         app.post('/reviews', async (req, res) => {
             const reviews = await reviewsCollection.insertOne(req.body);
             res.json(reviews);
+        });
+
+        app.delete('/reviews/:id', async (req, res) => {
+            const deletedreviews = await reviewsCollection.deleteOne({ _id: ObjectId(req.params.id) });
+            res.json(deletedreviews)
         });
 
 
