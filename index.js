@@ -62,7 +62,12 @@ async function run() {
             const productDetails = await productsCollection.findOne({ _id: ObjectId(req.params.id) });
             res.send(productDetails)
 
-        })
+        });
+        //Delete API- delete products
+        app.delete('/products/:id', async (req, res) => {
+            const deletedProducts = await productsCollection.deleteOne({ _id: ObjectId(req.params.id) });
+            res.json(deletedProducts)
+        });
 
         //POST API- all users siging with email
         app.post('/users', async (req, res) => {
