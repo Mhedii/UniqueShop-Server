@@ -23,6 +23,9 @@ async function run() {
         await client.connect();
         const database = client.db("uniqueShop");
         const productsCollection = database.collection("products");
+        const addCartCollection = database.collection("addcart");
+        const wishlistCollection = database.collection("wishlist");
+        const reviewsCollection = database.collection("reviews");
         const usersCollection = database.collection('users');
         const ordersCollection = database.collection("orders");
 
@@ -122,7 +125,72 @@ async function run() {
             const result = await ordersCollection.updateOne(filter, updateDoc, options);
             res.json(result);
 
+        });
+        app.get("/wishlist", async (req, res) => {
+            const result = wishlistCollection.find({});
+            const wishlist = await result.toArray();
+            res.send(wishlist);
+
+        });
+        //POST API for Products order
+        app.post('/wishlist', async (req, res) => {
+            const wishlist = await wishlistCollection.insertOne(req.body);
+            res.json(wishlist);
+        });
+
+
+
+        app.get("/addcart", async (req, res) => {
+            const result = addCartCollection.find({});
+            const addCart = await result.toArray();
+            res.send(addCart);
+
         })
+        //POST API for Products add to cart
+        app.post('/addcart', async (req, res) => {
+            const addCart = await addCartCollection.insertOne(req.body);
+            res.json(addCart);
+        });
+
+        app.get("/reviews", async (req, res) => {
+            const result = reviewsCollection.find({});
+            const reviews = await result.toArray();
+            res.send(reviews);
+
+        });
+
+        //POST API for user review
+        app.post('/reviews', async (req, res) => {
+            const reviews = await reviewsCollection.insertOne(req.body);
+            res.json(reviews);
+        });
+
+
+
+
+
+        //admin route
+        //review g p
+        //addtocart api p g d
+        //wishlist api p g d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     } finally {
         //   await client.close();
