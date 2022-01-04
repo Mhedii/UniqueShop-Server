@@ -150,6 +150,13 @@ async function run() {
             res.send(wishlist);
 
         });
+        app.get("/wishlist/:email", async (req, res) => {
+            const result = await wishlistCollection.find({
+                user_email: req.params.email,
+            }).toArray();
+            res.send(result);
+        });
+
         //POST API for Products order
         app.post('/wishlist', async (req, res) => {
             const wishlist = await wishlistCollection.insertOne(req.body);
